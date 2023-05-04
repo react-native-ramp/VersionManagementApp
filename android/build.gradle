@@ -1,4 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import groovy.json.JsonSlurper
 
 buildscript {
     ext {
@@ -18,4 +19,32 @@ buildscript {
         classpath("com.android.tools.build:gradle:7.3.1")
         classpath("com.facebook.react:react-native-gradle-plugin")
     }
+}
+
+subprojects {
+    ext {
+        npmVersionCode = getNpmVersionCode()
+        npmVersionName = getNpmVersion()
+    }
+}
+
+def getNpmVersion() {
+    def inputFile = new File("$rootDir/../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["version"].replaceAll(/\-[a-z]+$/, '')
+}
+
+def getNpmVersionBuild() {
+    def inputFile = new File("$rootDir/../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["version-build"]
+}
+
+def getNpmVersionCode() {
+    def (sMajor, sMinor, sPatch) = getNpmVersion().tokenize('.')
+    def major = Integer.parseInt(sMajor)
+    def minor = Integer.parseInt(sMinor)
+    def patch = Integer.parseInt(sPatch)
+    def build = Integer.parseInt(getNpmVersionBuild())
+    return major * 1000000 + minor * 10000 + patch * 100 + build
 }
