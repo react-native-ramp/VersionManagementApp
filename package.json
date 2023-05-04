@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "version:bump:ios": "node scripts/bumpInfoPlistVersion.js"
+    "version:bump:ios": "node scripts/bumpInfoPlistVersion.js && node scripts/commitInfoPlistVersion.js",
+    "version:bump": "git reset && git add package.json && yarn version:bump:ios",
+    "postversion": "yarn version:bump"
   },
   "dependencies": {
     "react": "18.2.0",
