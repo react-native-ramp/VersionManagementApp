@@ -1,6 +1,7 @@
 {
   "name": "versionmanagementapp",
-  "version": "0.0.1",
+  "version": "1.3.5",
+  "version-build": "4",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
